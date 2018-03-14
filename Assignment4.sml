@@ -9,25 +9,40 @@ fun segs3 [] = []
 (** ii **)
 fun listsum_[] = 0.0
 |   listsum_(a::b) = a+listsum_(b);
-fun avgs3_ [] = []
-|   avgs3_ (a::d) = (listsum_(a))/3.0::avgs3_(d);
-fun avgs3 (x) = avgs3_(segs3(x));
+fun avgs3 x = map (fn x => listsum_(x)/3.0) (segs3(x));
 
 
 (*****  Problem 2  *****)
 
 (** i **)
+fun replicate (x,0) = []
+|   replicate (x,y) = x::replicate(x,y-1);
 
 (** ii **)
+fun uncompress [] = []
+|   uncompress x = List.concat (map (fn x => replicate(x))(x));
 
 (** iii **)
+fun maxSegsEq [] = []
+|   maxSegsEq (x::xs) =  
+        let
+            val (same, rest) = List.partition(fn b => b = x )(x::xs)
+        in
+            same::maxSegsEq(rest)
+        end;
 
 (** iv **)
+fun compress [] = []
+|   compress x = map ( fn (b::bs) => (b, List.length(b::bs)) ) (maxSegsEq x);
 
 
 (*****  Problem 3  *****)
 
 (** i **)
+fun follows oper [] = true
+|   follows oper (x::[]) = true
+|   follows oper (x::y::[]) = oper(x,y)
+|   follows oper (x::y::xs) = oper(x,y) andalso follows oper (y::xs);
 
 (** ii **)
 
