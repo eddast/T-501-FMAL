@@ -16,7 +16,7 @@ fun avgs3 x = map (fn x => listsum_(x)/3.0) (segs3(x));
 
 (** i **)
 fun replicate (x,0) = []
-|   replicate (x,y) = x::replicate(x,y-1);
+|   replicate (x,y) = if y > 0 then x::replicate(x,y-1) else [];
 
 (** ii **)
 fun uncompress [] = []
@@ -42,10 +42,16 @@ fun compress [] = []
 fun follows oper [] = true
 |   follows oper (x::[]) = true
 |   follows oper (x::y::[]) = oper(x,y)
-|   follows oper (x::y::xs) = oper(x,y) andalso follows oper (y::xs);
+|   follows oper (x::y::xs) = if oper(x,y) then follows oper (y::xs) else false; 
 
 (** ii **)
-
+(* fun validCompr [] = true
+|   validCompr (x::y::xs) = 
+        let
+            val (firstValue, firstComp) = x
+            val (secondValue, secondComp) = y
+        in
+            follows op<> firstValue secondValue *)
 
 (*****  Problem 4  *****)
 
