@@ -45,13 +45,10 @@ fun follows oper [] = true
 |   follows oper (x::y::xs) = if oper(x,y) then follows oper (y::xs) else false; 
 
 (** ii **)
-(* fun validCompr [] = true
-|   validCompr (x::y::xs) = 
-        let
-            val (firstValue, firstComp) = x
-            val (secondValue, secondComp) = y
-        in
-            follows op<> firstValue secondValue *)
+fun getCompressedValues [] = []
+|   getCompressedValues ((one,two)::xs) = one::getCompressedValues(xs);
+fun validCompr lis = follows op<> (getCompressedValues lis);
+
 
 (*****  Problem 4  *****)
 
