@@ -7,9 +7,9 @@ fun segs3 [] = []
 |   segs3 (a::b::c::d) = [a, b, c]::segs3(b::c::d);
 
 (** ii **)
-fun listsum_[] = 0.0
-|   listsum_(a::b) = a+listsum_(b);
-fun avgs3 x = map (fn x => listsum_(x)/3.0) (segs3(x));
+fun listsum[] = 0.0
+|   listsum(a::b) = a+listsum(b);
+fun avgs3 x = map (fn x => listsum(x)/3.0) (segs3(x));
 
 
 (*****  Problem 2  *****)
@@ -47,14 +47,20 @@ fun follows oper [] = true
 (** ii **)
 fun getCompressedValues [] = []
 |   getCompressedValues ((one,two)::xs) = one::getCompressedValues(xs);
-fun validCompr lis = follows op<> (getCompressedValues lis);
-
+fun validCompr lis = follows op<> (getCompressedValues lis) andalso List.all(fn b => let val (first,second) = b in second > 0 end)(lis);
 
 (*****  Problem 4  *****)
 
 (** i **)
+fun evalPolinomal [] valx = 0.0
+|   evalPolinomal (x::xs) valx = x*valx + evalPolinomal xs valx*valx;
+fun evalPoly (x::xs) valx = x + evalPolinomal xs valx;
 
 (** ii **)
+fun addPoly [] [] = []
+|   addPoly (lis:real list) [] = lis
+|   addPoly [] (lis:real list) = lis
+|   addPoly (x::xs:real list) (y::ys:real list) = (x+y)::addPoly xs ys;
 
 (** iii **)
 
