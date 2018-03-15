@@ -5,9 +5,13 @@ fun segs3 [] = []
 |   segs3 (a::b::[]) = []
 |   segs3 (a::b::c::d) = [a, b, c]::segs3(b::c::d);
 (** ii **)
-fun listsum[] = 0.0
-|   listsum(a::b) = a+listsum(b);
-fun avgs3 x = map (fn x => listsum(x)/real(List.length(x))) (segs3(x));
+fun avgs3 x = 
+    let 
+        fun listsum[] = 0.0
+        |   listsum(a::b) = a+listsum(b)
+    in
+        map (fn x => listsum(x)/real(List.length(x))) (segs3(x))
+    end;
 
 
 (*****  Problem 2  *****)
@@ -21,9 +25,9 @@ fun uncompress [] = []
 fun maxSegsEq [] = []
 |   maxSegsEq (x::xs) =  
         let
-            val (same, rest) = List.partition(fn b => b = x )(x::xs)
+            val (samesSegment, rest) = List.partition(fn b => b = x )(x::xs)
         in
-            same::maxSegsEq(rest)
+            samesSegment::maxSegsEq(rest)
         end;
 (** iv **)
 fun compress [] = []
@@ -37,9 +41,13 @@ fun follows oper [] = true
 |   follows oper (x::y::[]) = oper(x,y)
 |   follows oper (x::y::xs) = if oper(x,y) then follows oper (y::xs) else false; 
 (** ii **)
-fun getCompressedValues [] = []
-|   getCompressedValues ((one,two)::xs) = one::getCompressedValues(xs);
-fun validCompr lis = follows op<> (getCompressedValues lis) andalso List.all(fn b => let val (first,second) = b in second > 0 end)(lis);
+fun validCompr lis =
+    let
+        fun getCompressedValues [] = []
+        |   getCompressedValues ((one,two)::xs) = one::getCompressedValues(xs)
+    in
+        follows op<> (getCompressedValues lis) andalso List.all(fn b => let val (first,second) = b in second > 0 end)(lis)
+    end;
 
 (*****  Problem 4  *****)
 (** i **)
