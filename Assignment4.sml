@@ -75,5 +75,26 @@ fun addPoly [] [] = []
 |   addPoly [] (lis:real list) = lis
 |   addPoly (x::xs:real list) (y::ys:real list) = (x+y)::addPoly xs ys;
 
+
 (** iii **)
 
+fun multPoly [] [] = []
+|   multPoly (lisone:real list) [] = []
+|   multPoly [] (lis:real list) = []
+|   multPoly (lisone:real list) (listwo:real list) = 
+        let
+            val resList = map (fn y => map(fn x => x*y)(lisone)) (listwo);
+            fun addZeroes [] (idx:real list) = []
+            |   addZeroes (x::xs:real list list) [] = x::addZeroes (xs) (0.0::[])
+            |   addZeroes (x::xs:real list list) (idx:real list) = 
+                let
+                    val newList = idx@x
+                in
+                    newList::addZeroes (xs) (0.0::idx)
+                end;
+            val addedZeroes = addZeroes resList [];
+            fun applyAddition lis [] = lis
+            |   applyAddition lis (x::xs) =  applyAddition (addPoly (lis)(x)) (xs);
+        in
+            applyAddition [] addedZeroes
+        end;
