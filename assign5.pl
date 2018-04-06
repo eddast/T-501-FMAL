@@ -125,7 +125,5 @@ moveK(R1/C1, R2/C2):- R1-2 > 0, C1-1 > 0, R2 is R1-2, C2 is C1-1.
  * number of steps. */
 journey(From, From, _Amount).
 journey(_, _, 0):- !, false.
-journey(From, To,_Amount):- moveK(From, To).
+journey(From, To, 1):- !, moveK(From, To).
 journey(From, To, Amount):-  Amount1 is Amount - 1, moveK(From, Dest), journey(Dest, To, Amount1).
-
-
